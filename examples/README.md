@@ -28,3 +28,4 @@ python examples/1_1_vectors.py
 |------|-----------|
 | `1_1_vectors.py` | 1.1 向量的概念与表示 |
 | `1_2_matrix.py` | 1.2 矩阵的概念与形状 |
+| `1_3_tensor.py` | 1.3 张量 / 维度(dim, axis) |
