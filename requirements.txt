@@ -1,0 +1,4 @@
+# 学习大模型数学所需的 Python 依赖
+# 安装：pip install -r requirements.txt
+
+numpy>=1.24
