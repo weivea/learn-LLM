@@ -32,3 +32,4 @@ python examples/1_1_vectors.py
 | `1_4_matmul.py` | 1.4 矩阵乘法(matmul) |
 | `1_5_dot_product.py` | 1.5 点积(dot product) |
 | `1_6_transpose.py` | 1.6 矩阵转置(transpose) |
+| `1_7_broadcasting.py` | 1.7 广播(broadcasting) |
