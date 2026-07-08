@@ -36,3 +36,6 @@ python examples/1_1_vectors.py
 | `1_8_cosine_similarity.py` | 1.8 余弦相似度(cosine similarity) |
 | `1_9_norm.py` | 1.9 范数(norm) L1 / L2 |
 | `1_10_identity_inverse.py` | 1.10 单位矩阵 / 逆矩阵 |
+| `1_11_eigen.py` | 1.11 特征值 / 特征向量 |
+| `1_12_svd.py` | 1.12 SVD 奇异值分解 |
+| `2_1_derivative.py` | 2.1 导数(derivative) |
