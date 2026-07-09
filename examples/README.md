@@ -40,3 +40,4 @@ python examples/1_1_vectors.py
 | `1_12_svd.py` | 1.12 SVD 奇异值分解 |
 | `2_1_derivative.py` | 2.1 导数(derivative) |
 | `2_2_partial_derivative.py` | 2.2 偏导数(partial derivative) |
+| `2_3_gradient.py` | 2.3 梯度(gradient) |
