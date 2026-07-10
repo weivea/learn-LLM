@@ -42,3 +42,4 @@ python examples/1_1_vectors.py
 | `2_2_partial_derivative.py` | 2.2 偏导数(partial derivative) |
 | `2_3_gradient.py` | 2.3 梯度(gradient) |
 | `2_4_chain_rule.py` | 2.4 链式法则(chain rule) |
+| `2_5_gradient_descent.py` | 2.5 梯度下降(gradient descent) |
