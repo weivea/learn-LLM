@@ -43,3 +43,4 @@ python examples/1_1_vectors.py
 | `2_3_gradient.py` | 2.3 梯度(gradient) |
 | `2_4_chain_rule.py` | 2.4 链式法则(chain rule) |
 | `2_5_gradient_descent.py` | 2.5 梯度下降(gradient descent) |
+| `2_6_learning_rate.py` | 2.6 学习率(learning rate η) |
