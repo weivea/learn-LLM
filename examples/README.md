@@ -45,3 +45,4 @@ python examples/1_1_vectors.py
 | `2_5_gradient_descent.py` | 2.5 梯度下降(gradient descent) |
 | `2_6_learning_rate.py` | 2.6 学习率(learning rate η) |
 | `2_7_autograd.py` | 2.7 计算图与自动求导 |
+| `2_8_common_derivatives.py` | 2.8 常见函数的导数 |
