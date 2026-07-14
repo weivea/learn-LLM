@@ -48,3 +48,5 @@ python examples/1_1_vectors.py
 | `2_8_common_derivatives.py` | 2.8 常见函数的导数 |
 | `2_9_local_minima_saddle_points.py` | 2.9 局部最小 / 鞍点 |
 | `2_10_vanishing_exploding_gradients.py` | 2.10 梯度消失 / 爆炸 |
+| `3_1_probability_distributions.py` | 3.1 概率分布(离散 / 连续) |
+| `3_2_softmax.py` | 3.2 Softmax |
