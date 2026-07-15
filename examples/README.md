@@ -50,3 +50,4 @@ python examples/1_1_vectors.py
 | `2_10_vanishing_exploding_gradients.py` | 2.10 梯度消失 / 爆炸 |
 | `3_1_probability_distributions.py` | 3.1 概率分布(离散 / 连续) |
 | `3_2_softmax.py` | 3.2 Softmax |
+| `3_3_cross_entropy_nll.py` | 3.3 交叉熵 / 负对数似然(NLL) |
