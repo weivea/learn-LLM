@@ -53,3 +53,4 @@ python examples/1_1_vectors.py
 | `3_3_cross_entropy_nll.py` | 3.3 交叉熵 / 负对数似然(NLL) |
 | `3_4_logarithms.py` | 3.4 对数(log) |
 | `3_5_perplexity.py` | 3.5 困惑度(perplexity) |
+| `3_6_conditional_probability.py` | 3.6 条件概率：P(下一个 token \| 前文) |
