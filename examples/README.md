@@ -56,3 +56,4 @@ python examples/1_1_vectors.py
 | `3_6_conditional_probability.py` | 3.6 条件概率：P(下一个 token \| 前文) |
 | `3_7_expectation.py` | 3.7 期望(expectation) |
 | `3_8_variance_standard_deviation.py` | 3.8 方差 / 标准差 |
+| `3_9_sampling.py` | 3.9 采样(sampling) |
