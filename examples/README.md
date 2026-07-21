@@ -57,3 +57,5 @@ python examples/1_1_vectors.py
 | `3_7_expectation.py` | 3.7 期望(expectation) |
 | `3_8_variance_standard_deviation.py` | 3.8 方差 / 标准差 |
 | `3_9_sampling.py` | 3.9 采样(sampling) |
+| `3_10_bayesian_intuition.py` | 3.10 贝叶斯直觉 |
+| `3_11_maximum_likelihood.py` | 3.11 最大似然估计(MLE) |
