@@ -59,3 +59,5 @@ python examples/1_1_vectors.py
 | `3_9_sampling.py` | 3.9 采样(sampling) |
 | `3_10_bayesian_intuition.py` | 3.10 贝叶斯直觉 |
 | `3_11_maximum_likelihood.py` | 3.11 最大似然估计(MLE) |
+| `4_1_entropy.py` | 4.1 熵(entropy) |
+| `4_2_kl_divergence.py` | 4.2 KL 散度 |
