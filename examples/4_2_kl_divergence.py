@@ -3,11 +3,11 @@
 
 配套知识点：数学知识点掌握表.md · 4.2
 目标：用数值实验看清：
-      1) KL 是 P 下 log(P / Q) 的期望
+    1) KL 是 q 下 log(q / p) 的期望
       2) KL 的单项可以为负，但总和非负
-      3) KL 有方向，交换 P 和 Q 后通常不同
-      4) P 的正概率事件被 Q 判为零时，KL 为无穷大
-      5) H(P, Q) = H(P) + KL(P || Q)
+    3) KL 有方向，交换 q 和 p 后通常不同
+    4) q 的正概率事件被 p 判为零时，KL 为无穷大
+    5) H(q, p) = H(q) + KL(q || p)
       6) Monte Carlo 平均 log-ratio 如何估计 KL
       7) RLHF 中奖励与 KL 约束如何权衡
       8) 序列 log-ratio 如何拆成逐 token 之和
@@ -58,14 +58,14 @@ def validate_probability_distribution(
 
 
 def validate_distribution_pair(
-    p: np.ndarray,
     q: np.ndarray,
+    p: np.ndarray,
 ) -> tuple[np.ndarray, np.ndarray]:
-    p_values = validate_probability_distribution(p, "p")
     q_values = validate_probability_distribution(q, "q")
-    if p_values.shape != q_values.shape:
-        raise ValueError("p 和 q 必须具有相同 shape")
-    return p_values, q_values
+    p_values = validate_probability_distribution(p, "p")
+    if q_values.shape != p_values.shape:
+        raise ValueError("q 和 p 必须具有相同 shape")
+    return q_values, p_values
 
 
 def entropy(
@@ -85,38 +85,34 @@ def entropy(
 
 
 def cross_entropy(
-    p: np.ndarray,
     q: np.ndarray,
+    p: np.ndarray,
     base: float = np.e,
 ) -> float:
-    p_values, q_values = validate_distribution_pair(p, q)
+    q_values, p_values = validate_distribution_pair(q, p)
     log_base = validate_log_base(base)
-    positive_p = p_values > 0.0
-    if np.any(q_values[positive_p] == 0.0):
+    positive_q = q_values > 0.0
+    if np.any(p_values[positive_q] == 0.0):
         return np.inf
     return float(
-        -np.sum(p_values[positive_p] * np.log(q_values[positive_p]))
-        / np.log(log_base)
+        -np.sum(q_values[positive_q] * np.log(p_values[positive_q])) / np.log(log_base)
     )
 
 
 def kl_divergence(
-    p: np.ndarray,
     q: np.ndarray,
+    p: np.ndarray,
     base: float = np.e,
 ) -> float:
-    p_values, q_values = validate_distribution_pair(p, q)
+    q_values, p_values = validate_distribution_pair(q, p)
     log_base = validate_log_base(base)
-    positive_p = p_values > 0.0
-    if np.any(q_values[positive_p] == 0.0):
+    positive_q = q_values > 0.0
+    if np.any(p_values[positive_q] == 0.0):
         return np.inf
     return float(
         np.sum(
-            p_values[positive_p]
-            * (
-                np.log(p_values[positive_p])
-                - np.log(q_values[positive_p])
-            )
+            q_values[positive_q]
+            * (np.log(q_values[positive_q]) - np.log(p_values[positive_q]))
         )
         / np.log(log_base)
     )
@@ -126,19 +122,19 @@ def main() -> None:
     np.set_printoptions(precision=6, suppress=True)
 
     # ------------------------------------------------------------------
-    section("1) 逐项理解：KL 是 P 加权的 log(P / Q)")
+    section("1) 逐项理解：KL 是 q 加权的 log(q / p)")
 
-    p = np.array([0.5, 0.3, 0.2])
-    q = np.array([0.6, 0.25, 0.15])
-    terms = p * np.log(p / q)
-    kl_nats = kl_divergence(p, q)
-    kl_bits = kl_divergence(p, q, base=2.0)
+    q = np.array([0.5, 0.3, 0.2])
+    p = np.array([0.6, 0.25, 0.15])
+    terms = q * np.log(q / p)
+    kl_nats = kl_divergence(q, p)
+    kl_bits = kl_divergence(q, p, base=2.0)
 
-    print("P：", p)
-    print("Q：", q)
-    print("各项 p * ln(p / q)：", terms)
-    print(f"KL(P || Q)：{kl_nats:.6f} nats")
-    print(f"KL(P || Q)：{kl_bits:.6f} bits")
+    print("q（真实数据分布）：", q)
+    print("p（模型预测分布）：", p)
+    print("各项 q * ln(q / p)：", terms)
+    print(f"KL(q || p)：{kl_nats:.6f} nats")
+    print(f"KL(q || p)：{kl_bits:.6f} bits")
 
     assert terms[0] < 0.0
     assert terms[1] > 0.0
@@ -151,35 +147,35 @@ def main() -> None:
     # ------------------------------------------------------------------
     section("2) 交叉熵 = 熵 + KL")
 
-    p_entropy = entropy(p)
-    p_q_cross_entropy = cross_entropy(p, q)
+    q_entropy = entropy(q)
+    q_p_cross_entropy = cross_entropy(q, p)
 
-    print(f"H(P)：        {p_entropy:.6f}")
-    print(f"KL(P || Q)： {kl_nats:.6f}")
-    print(f"H(P, Q)：     {p_q_cross_entropy:.6f}")
-    print(f"H(P) + KL：   {p_entropy + kl_nats:.6f}")
+    print(f"H(q)：        {q_entropy:.6f}")
+    print(f"KL(q || p)： {kl_nats:.6f}")
+    print(f"H(q, p)：     {q_p_cross_entropy:.6f}")
+    print(f"H(q) + KL：   {q_entropy + kl_nats:.6f}")
 
-    assert np.isclose(p_entropy, 1.0296530140645737)
-    assert np.isclose(p_q_cross_entropy, 1.0507251171961387)
+    assert np.isclose(q_entropy, 1.0296530140645737)
+    assert np.isclose(q_p_cross_entropy, 1.0507251171961387)
     assert np.isclose(
-        p_q_cross_entropy,
-        p_entropy + kl_nats,
+        q_p_cross_entropy,
+        q_entropy + kl_nats,
     )
-    assert np.isclose(kl_divergence(p, p), 0.0)
-    print("=> P 固定时，最小化 H(P, Q) 等价于最小化 KL(P || Q)")
+    assert np.isclose(kl_divergence(q, q), 0.0)
+    print("=> q 固定时，最小化 H(q, p) 等价于最小化 KL(q || p)")
 
     # ------------------------------------------------------------------
     section("3) KL 有方向：交换两个分布后通常不同")
 
-    direction_p = np.array([0.5, 0.5])
-    direction_q = np.array([0.9, 0.1])
-    forward_kl = kl_divergence(direction_p, direction_q)
-    reverse_kl = kl_divergence(direction_q, direction_p)
+    direction_q = np.array([0.5, 0.5])
+    direction_p = np.array([0.9, 0.1])
+    forward_kl = kl_divergence(direction_q, direction_p)
+    reverse_kl = kl_divergence(direction_p, direction_q)
 
-    print("P：", direction_p)
-    print("Q：", direction_q)
-    print(f"KL(P || Q)：{forward_kl:.6f}")
-    print(f"KL(Q || P)：{reverse_kl:.6f}")
+    print("q：", direction_q)
+    print("p：", direction_p)
+    print(f"KL(q || p)：{forward_kl:.6f}")
+    print(f"KL(p || q)：{reverse_kl:.6f}")
 
     assert np.isclose(forward_kl, 0.5108256237659907)
     assert np.isclose(reverse_kl, 0.3680642071684971)
@@ -187,7 +183,7 @@ def main() -> None:
     print("=> 第一个分布决定采样频率和期望权重，方向不能省略")
 
     # ------------------------------------------------------------------
-    section("4) 支撑集：P 的可能事件不能被 Q 判为不可能")
+    section("4) 支撑集：q 的可能事件不能被 p 判为不可能")
 
     deterministic = np.array([1.0, 0.0])
     uniform = np.array([0.5, 0.5])
@@ -205,7 +201,7 @@ def main() -> None:
 
     assert np.isclose(deterministic_to_uniform, np.log(2.0))
     assert np.isinf(uniform_to_deterministic)
-    print("=> p_i=0 的项为 0；p_i>0 且 q_i=0 时 KL 为 +∞")
+    print("=> q_i=0 的项为 0；q_i>0 且 p_i=0 时 KL 为 +∞")
 
     # ------------------------------------------------------------------
     section("5) Gibbs 不等式与 Monte Carlo 估计")
@@ -223,17 +219,15 @@ def main() -> None:
 
     sample_count = 200_000
     samples = rng.choice(
-        direction_p.size,
+        direction_q.size,
         size=sample_count,
-        p=direction_p,
+        p=direction_q,
     )
-    sample_log_ratios = np.log(
-        direction_p[samples] / direction_q[samples]
-    )
+    sample_log_ratios = np.log(direction_q[samples] / direction_p[samples])
     estimated_kl = float(sample_log_ratios.mean())
 
     print(f"1,000 组随机分布的最小 KL：{random_kl_values.min():.12f}")
-    print(f"精确 KL(P || Q)：          {forward_kl:.6f}")
+    print(f"精确 KL(q || p)：          {forward_kl:.6f}")
     print(f"{sample_count:,} 次采样估计：       {estimated_kl:.6f}")
     print(
         "样本 log-ratio 范围：       "

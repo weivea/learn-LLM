@@ -61,3 +61,4 @@ python examples/1_1_vectors.py
 | `3_11_maximum_likelihood.py` | 3.11 最大似然估计(MLE) |
 | `4_1_entropy.py` | 4.1 熵(entropy) |
 | `4_2_kl_divergence.py` | 4.2 KL 散度 |
+| `4_3_cross_entropy_entropy.py` | 4.3 交叉熵与熵的关系 |
